@@ -1,0 +1,5 @@
+Bluetooth (også kalt blåtann) er radiooverføringsprotokoll som benyttes for å sende og motta data trådløst mellom enheter i et personlig datanett sammensatt av mobiltelefon, datamaskin, og/eller andre enheter som støtter protokollen. Bluetooth ble først utviklet av Ericsson, og senere formalisert av Bluetooth Special Interest Group (SIG), som ble presentert den 20. mai 1999[1]. SIG var sammensatt av Sony Ericsson, IBM, Intel, Nokia og Toshiba. Bluetooth opererer i frekvensbåndet 2,402 til 2,480 GHz. Rekkevidden til bluetooth er i praksis på rundt 10-20 meter, avhengig av støyforhold. Overføringskapasiteten er på maksimalt 2 Mbit/s.[2]
+
+Bluetooth er en av flere konkurrerende protokoller som brukes for kommunikasjon mellom enheter i smarthus, ved siden av andre protokoller som for eksempel Z-Wave og ZigBee. Bluetooth brukes blant annet i lysstyringssystemet til Philips Hue, i tillegg til ZigBee.
+
+Navnet «bluetooth» er inspirert av Harald Blåtann[3] som var konge i Danmark, trolig fra 958 til 987. Logoen for blåtann er satt
