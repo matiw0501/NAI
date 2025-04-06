@@ -8,21 +8,27 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        ForInput.getOneLevelOfPerceptrons("languages");
+        ForInput.getLearnedPerceptrons("languages/");
 
         String path = "languages/Polish/Warszawa.txt";
         List<String> a = new ArrayList<String>();
         try {
         a = Files.readAllLines(Paths.get(path));
-            System.out.println(a);
+
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
         a.forEach(e -> {
-            System.out.println(Normalizer.normalize(e, Normalizer.Form.NFKD).replaceAll("[^\\p{ASCII}]", ""));
-            // cos z replacem mozna uzyc biblioteki zewnetrznej itd. ale chyba zrob na sztywno zamiane znakow ktorych to nie obsługuje ł ss niemieckie itd.
+           String temp = e
+                    .replace("ł", "l").replace("Ł", "L")
+                    .replace("ß", "ss")
+                    .replace("ø", "o").replace("Ø", "O")
+                    .replace("æ", "ae").replace("Æ", "AE")
+                    .replace("ı", "i").replace("İ", "I")
+                    .replace("ț", "t").replace("Ț", "T")
+                    .replace("ș", "s").replace("Ș", "S");
+            e = Normalizer.normalize(temp, Normalizer.Form.NFKD).replaceAll("[^\\p{ASCII}]", "");
         });
 
     }
