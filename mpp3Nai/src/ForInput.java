@@ -60,17 +60,17 @@ public class ForInput {
                             a.printStackTrace();
                         }
 
-        AtomicInteger all=new AtomicInteger(0);
-        AtomicInteger correct=new AtomicInteger(0);
+
         perceptrons.forEach(perceptron -> {
 
             file.forEach((k, v) -> {
+                AtomicInteger all=new AtomicInteger(0);
+                AtomicInteger correct=new AtomicInteger(0);
                 do {
-                    all.set(0);
+                    all.set(v.size());
                     correct.set(0);
 
                         v.forEach(e -> {
-                            all.incrementAndGet();
                             perceptron.Learn(getRelativeAmount(e), k);
                             if (perceptron.Test(getRelativeAmount(e), k)) {
                                 correct.incrementAndGet();
