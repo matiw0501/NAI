@@ -49,6 +49,7 @@ public class PerceptronForLanguages {
                 y = 0;
             }
             for (int i = 0; i < inputs.length; i++) {
+                System.out.println("\n"+ (d-y) + "\n");
                 double delta = (d - y) * tempInputs[i];
                 weight[i] += delta;
             }

@@ -75,14 +75,12 @@ public class ForInput {
                             if (perceptron.Test(getRelativeAmount(e), k)) {
                                 correct.incrementAndGet();
                             }
-                            System.out.println(all.get() + " " + correct.get() + "" + perceptron + e);
                         });
 
                 }
-                while (correct != all);
+                while (all.get() != correct.get());
                 });
         });
-        perceptrons.forEach(e -> System.out.println(e.toString()));
         return perceptrons;
     }
 
@@ -103,7 +101,6 @@ public class ForInput {
                 alphabet[i] /= counter;
             }
         }
-        System.out.println(Arrays.toString(alphabet));
 
         return alphabet;
     }
