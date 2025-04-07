@@ -26,7 +26,7 @@ public class ForInput {
 
                                             try {
 
-                                                /* list.add(Normalizer.normalize((String.valueOf(Files.readAllLines(fileName))
+                                                list.add(Normalizer.normalize(((Files.readString(fileName))
                                                         .replace("ł", "l").replace("Ł", "L")
                                                         .replace("ß", "ss")
                                                         .replace("ø", "o").replace("Ø", "O")
@@ -36,8 +36,8 @@ public class ForInput {
                                                         .replace("ș", "s").replace("Ș", "S")), Normalizer.Form.NFKD).replaceAll("[^\\p{ASCII}]", ""));
 
 
-                                                 */
-                                                list.add(String.valueOf(Files.readAllLines(fileName)));
+
+                                              //  list.add(String.valueOf(Files.readAllLines(fileName)));
 
 
                                             } catch (IOException ex) {
@@ -60,27 +60,36 @@ public class ForInput {
                             a.printStackTrace();
                         }
 
+//moze
+        for (int i = 0; i < 10; i++) {
 
-        perceptrons.forEach(perceptron -> {
 
-            file.forEach((k, v) -> {
-                AtomicInteger all=new AtomicInteger(0);
-                AtomicInteger correct=new AtomicInteger(0);
+            perceptrons.forEach(perceptron -> {
+
+                AtomicInteger all = new AtomicInteger(0);
+                AtomicInteger correct = new AtomicInteger(0);
+
                 do {
-                    all.set(v.size());
+                    all.set(0);
                     correct.set(0);
-
-                        v.forEach(e -> {
-                            perceptron.Learn(getRelativeAmount(e), k);
-                            if (perceptron.Test(getRelativeAmount(e), k)) {
+                    file.forEach((k, v) -> {
+                        for (String l : v) {
+                            String expected = k.equals(perceptron.positive) ? perceptron.positive : "else";
+                            all.incrementAndGet();
+                            perceptron.Learn(getRelativeAmount(l), expected);
+                            if (perceptron.Test(getRelativeAmount(l), expected)) {
                                 correct.incrementAndGet();
                             }
-                        });
 
+                        }
+
+
+                    });
                 }
                 while (all.get() != correct.get());
-                });
-        });
+            });
+        }
+
         return perceptrons;
     }
 
@@ -101,6 +110,7 @@ public class ForInput {
                 alphabet[i] /= counter;
             }
         }
+
 
         return alphabet;
     }

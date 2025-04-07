@@ -7,7 +7,7 @@ public class PerceptronForLanguages {
     double threshold;
 
     public PerceptronForLanguages(String decision) {
-        Arrays.fill(weight, 1.0);
+        Arrays.fill(weight, 0.0);
         this.threshold = 1.0;
         this.positive = decision.trim();
     }
@@ -36,8 +36,8 @@ public class PerceptronForLanguages {
             throw new IllegalArgumentException("Error: weight length does not match input length!");
         }
 
-
-        while (!(Compute(inputs).equals(decision) || (!decision.equals(positive) && Compute(inputs).equals(under)))) {
+        String outcome = Compute(inputs);
+        while (!(outcome.equals(decision))) {
             counter=counter+1;
             double[] tempInputs = Arrays.copyOf(inputs, inputs.length);
 
@@ -53,6 +53,7 @@ public class PerceptronForLanguages {
                 double delta = (d - y) * tempInputs[i];
                 weight[i] += delta;
             }
+            outcome = Compute(tempInputs);
         }
     }
 
@@ -61,7 +62,7 @@ public class PerceptronForLanguages {
             throw new IllegalArgumentException("Error: weight length does not match input length!");
         }
 
-        return ((Compute(inputs).equals(decision) || (!decision.equals(positive) && Compute(inputs).equals(under))));
+        return Compute(inputs).equals(decision);
 
     }
 
