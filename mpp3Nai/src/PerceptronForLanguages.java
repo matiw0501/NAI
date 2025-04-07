@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 public class PerceptronForLanguages {
-    private final String positive;
+    public final String positive;
     private static final String under = "else";
     double[] weight= new double[26];
     double threshold;
