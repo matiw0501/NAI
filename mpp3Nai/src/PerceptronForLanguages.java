@@ -5,6 +5,7 @@ public class PerceptronForLanguages {
     private static final String under = "else";
     double[] weight= new double[26];
     double threshold;
+    public int counter = 0;
 
     public PerceptronForLanguages(String decision) {
         Arrays.fill(weight, 0.0);
@@ -13,11 +14,6 @@ public class PerceptronForLanguages {
     }
 
     public String Compute(double[] inputs) {
-
-
-        if (weight.length != inputs.length) {
-            throw new IllegalArgumentException("Error: weight length does not match input length!");
-        }
 
         double sum = 0;
         for (int i = 0; i < inputs.length; i++) {
@@ -29,17 +25,17 @@ public class PerceptronForLanguages {
             return under;
         }
     }
-    public int counter=0;
-    public void Learn(double[] inputs, String decision) {
 
-        if (weight.length != inputs.length) {
-            throw new IllegalArgumentException("Error: weight length does not match input length!");
-        }
+    public boolean Learn(double[] inputs, String decision) {
+
 
         String outcome = Compute(inputs);
+        if (outcome.equals(decision)) {
+            return false;
+        }
         while (!(outcome.equals(decision))) {
             counter=counter+1;
-            double[] tempInputs = Arrays.copyOf(inputs, inputs.length);
+
 
             int d = 0;
             int y = 1;
@@ -49,18 +45,15 @@ public class PerceptronForLanguages {
                 y = 0;
             }
             for (int i = 0; i < inputs.length; i++) {
-                System.out.println("\n"+ (d-y) + "\n");
-                double delta = (d - y) * tempInputs[i];
+                double delta = (d - y) * inputs[i];
                 weight[i] += delta;
             }
-            outcome = Compute(tempInputs);
+            outcome = Compute(inputs);
         }
+        return true;
     }
 
     public boolean Test(double[] inputs, String decision) {
-        if (weight.length != inputs.length) {
-            throw new IllegalArgumentException("Error: weight length does not match input length!");
-        }
 
         return Compute(inputs).equals(decision);
 

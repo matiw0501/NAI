@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.text.Normalizer;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ForInput {
@@ -10,6 +11,7 @@ public class ForInput {
         Path path  = Paths.get(stringPath);
         List<PerceptronForLanguages> perceptrons = new ArrayList<>();
         Map<String, List<String>> file = new HashMap<>();
+
 
 
         try {
@@ -37,9 +39,6 @@ public class ForInput {
 
 
 
-                                              //  list.add(String.valueOf(Files.readAllLines(fileName)));
-
-
                                             } catch (IOException ex) {
                                                 throw new RuntimeException(ex);
                                             }
@@ -61,37 +60,37 @@ public class ForInput {
                         }
 
 //moze
-        for (int i = 0; i < 10; i++) {
+
 
 
             perceptrons.forEach(perceptron -> {
-
-                AtomicInteger all = new AtomicInteger(0);
-                AtomicInteger correct = new AtomicInteger(0);
+                AtomicBoolean weighsChanged = new AtomicBoolean(false);
 
                 do {
-                    all.set(0);
-                    correct.set(0);
-                    file.forEach((k, v) -> {
-                        for (String l : v) {
-                            String expected = k.equals(perceptron.positive) ? perceptron.positive : "else";
-                            all.incrementAndGet();
-                            perceptron.Learn(getRelativeAmount(l), expected);
-                            if (perceptron.Test(getRelativeAmount(l), expected)) {
-                                correct.incrementAndGet();
-                            }
+                    weighsChanged.set(false);
+                    file.forEach((lang, vector) -> {
+                        for (String text : vector) {
+                            String expected = lang.equals(perceptron.positive) ? perceptron.positive : "else";
+                            weighsChanged.set( perceptron.Learn(getRelativeAmount(text), expected));
 
                         }
 
-
                     });
                 }
-                while (all.get() != correct.get());
+                while (weighsChanged.get());
+
             });
-        }
+
 
         return perceptrons;
     }
+
+    public static void testFolder(List<PerceptronForLanguages> perceptrons, String stringPath)  {
+        Path path  = Paths.get(stringPath);
+        int count = 0;
+
+    }
+
 
 
     public static double [] getRelativeAmount(String text){
