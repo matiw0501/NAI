@@ -14,11 +14,11 @@ public class VectorProject {
         double bestProb = -1;
 
         for (String label : listOfVectors.getSetOfNames()) {
-            double prior = (double) listOfVectors.vectors.stream()
+            boolean changed = false;
+
+            double probability = (double) listOfVectors.vectors.stream()
                     .filter(v -> v.name.equals(label))
                     .count() / listOfVectors.vectors.size();
-
-            double probability = prior;
 
             System.out.println("\n---    ---");
 
@@ -39,22 +39,36 @@ public class VectorProject {
                         .map(v -> v.columns.get(index)).distinct().count();
 
                 double noSmoothProb = totalLabelCount == 0 ? 0 : (double) matchingCount / totalLabelCount;
+                if(i!=0) {
+                    if (noSmoothProb > 0) {
+                        System.out.printf("kolumna %d: bez wygładzania = %.8f%n", i, noSmoothProb);
+                        probability *= noSmoothProb;
 
-                if (noSmoothProb > 0) {
-                    System.out.printf("kolumna %d: bez wygładzania = %.8f%n", i, noSmoothProb);
-                    probability *= noSmoothProb;
-                } else {
+                    }
+                    if (noSmoothProb == 0) {
+                        double smoothedProb = (matchingCount + 1.0) / (totalLabelCount + distinctAttrValues);
+                        System.out.printf("kolumna %d: bez wygładzania = 0.00000000 -> wygładzanie = %.8f%n", i, smoothedProb);
+                        probability *= smoothedProb;
+                        changed = true;
+                    }
+                }
+                if(i==columns.size()-1 && !changed || i==columns.size()-1 && noSmoothProb ==0) {
                     double smoothedProb = (matchingCount + 1.0) / (totalLabelCount + distinctAttrValues);
-                    System.out.printf("kolumna %d: bez wygładzania = 0.00000000 -> wygładzanie = %.8f%n", i, smoothedProb);
+                    System.out.printf("kolumna %d: bez wygładzania = 0.00000000 -> wygładzanie = %.8f%n", 0, smoothedProb);
                     probability *= smoothedProb;
                 }
+                else if(i==columns.size()-1) {
+                    System.out.printf("kolumna %d: bez wygładzania = %.8f%n", 0, noSmoothProb);
+                    probability *= noSmoothProb;
+                }
+
             }
 
-            if (probability > bestProb || resultName.equals("")) {
+            if (probability > bestProb || resultName.isEmpty()) {
                 bestProb = probability;
                 resultName = label;
             }
-            System.out.println(String.format("%.20f", bestProb));
+            System.out.printf("%.20f%n", bestProb);
         }
         return resultName;
     }
