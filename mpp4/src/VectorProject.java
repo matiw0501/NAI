@@ -11,7 +11,7 @@ public class VectorProject {
 
     public String goThrough(ListOfVectors listOfVectors) {
         String resultName = "";
-        double bestProb = 1;
+        double bestProb = -1;
 
         for (String label : listOfVectors.getSetOfNames()) {
             double prior = (double) listOfVectors.vectors.stream()
@@ -54,8 +54,8 @@ public class VectorProject {
                 bestProb = probability;
                 resultName = label;
             }
+            System.out.println(String.format("%.20f", bestProb));
         }
-
         return resultName;
     }
 
